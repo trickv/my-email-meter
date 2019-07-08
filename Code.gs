@@ -125,6 +125,6 @@ function updateHud() {
   updatedCell.setValue(dataUpdated);
   updatedCell.setNumberFormat("YYYY-mm-dd HH:MM:SS");
   var ageCell =  hud.getRange("A" + displayRow++)
-  ageCell.setValue("=now()-A20");
+  ageCell.setValue("=now()-" + updatedCell.getA1Notation());
   ageCell.setNumberFormat("HH:MM:SS");
 }
