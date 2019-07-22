@@ -89,7 +89,7 @@ function doHudRow(hudRowNumber, lastRow, description, dataColumn, hours, data, h
   hud.getRange("A" + hudRowNumber).setValue(description + " change last " + hours + "h");
   cell.setValue(change);
   cell.setBackground(color);
-  cell.setFontSize(40);
+  cell.setFontSize(30);
 }
   
 function updateHud() {
@@ -108,12 +108,18 @@ function updateHud() {
   var dataUpdated = data.getRange("A" + lastRow).getValue();
   
   displayRow = 1;
+  var importantCountNow =  data.getRange("I" + lastRow).getValue();
+  hud.getRange("A" + displayRow).setValue("important NOW");
+  hud.getRange("B" + displayRow++).setValue(importantCountNow);
   doHudRow(displayRow++, lastRow, "important", "I", 1, data, hud);
   doHudRow(displayRow++, lastRow, "important", "I", 4, data, hud);
   doHudRow(displayRow++, lastRow, "important", "I", 24, data, hud);
   doHudRow(displayRow++, lastRow, "important", "I", 24*3, data, hud);
   doHudRow(displayRow++, lastRow, "important", "I", 24*7, data, hud);
   displayRow++;
+  var importantUnreadCountNow =  data.getRange("K" + lastRow).getValue();
+  hud.getRange("A" + displayRow).setValue("important unread NOW");
+  hud.getRange("B" + displayRow++).setValue(importantUnreadCountNow);
   doHudRow(displayRow++, lastRow, "important unread", "K", 4, data, hud);
   doHudRow(displayRow++, lastRow, "important unread", "K", 24, data, hud);
   doHudRow(displayRow++, lastRow, "important unread", "K", 24*3, data, hud);
