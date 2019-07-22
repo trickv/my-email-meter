@@ -95,7 +95,7 @@ function doHudRow(hudRowNumber, lastRow, description, dataColumn, hours, data, h
 function updateHud() {
   var d = new Date();
   var hud = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("HUD");
-  hud.clear();
+  //hud.clear(); // FIXME: need a way to run this only when the layout has changed since last run.
   var data = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Data");
 
   var lastRow = data.getLastRow();
@@ -108,6 +108,7 @@ function updateHud() {
   var dataUpdated = data.getRange("A" + lastRow).getValue();
   
   displayRow = 1;
+  doHudRow(displayRow++, lastRow, "important", "I", 1, data, hud);
   doHudRow(displayRow++, lastRow, "important", "I", 4, data, hud);
   doHudRow(displayRow++, lastRow, "important", "I", 24, data, hud);
   doHudRow(displayRow++, lastRow, "important", "I", 24*3, data, hud);
