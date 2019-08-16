@@ -132,6 +132,7 @@ function updateHud() {
   doHudRow(displayRow++, lastRow, "starred", "L", 1, data, hud);
   doHudRow(displayRow++, lastRow, "starred", "L", 24*0.5, data, hud);
   doHudRow(displayRow++, lastRow, "starred", "L", 24, data, hud);
+  doHudRow(displayRow++, lastRow, "starred", "L", 24*7, data, hud);
 
   displayRow += 3;
   
