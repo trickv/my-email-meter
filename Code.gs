@@ -111,6 +111,8 @@ function updateHud() {
   var dataUpdated = data.getRange("A" + lastRow).getValue();
   
   displayRow = 1;
+  
+  /*
   var importantCountNow =  data.getRange("I" + lastRow).getValue();
   hud.getRange("A" + displayRow).setValue("important NOW");
   hud.getRange("B" + displayRow++).setValue(importantCountNow);
@@ -119,6 +121,8 @@ function updateHud() {
   doHudRow(displayRow++, lastRow, "important", "I", 24, data, hud);
   doHudRow(displayRow++, lastRow, "important", "I", 24*7, data, hud);
   displayRow++;
+  */
+  
   var importantUnreadCountNow =  data.getRange("K" + lastRow).getValue();
   hud.getRange("A" + displayRow).setValue("important unread NOW");
   hud.getRange("B" + displayRow++).setValue(importantUnreadCountNow);
@@ -136,6 +140,8 @@ function updateHud() {
 
   displayRow += 3;
   
+  updateHudCharts();
+  
   hud.getRange("A" + displayRow++).setValue("Last update:");
   var updatedCell = hud.getRange("A" + displayRow++)
   updatedCell.setValue(dataUpdated);
@@ -143,4 +149,34 @@ function updateHud() {
   var ageCell =  hud.getRange("A" + displayRow++)
   ageCell.setValue("=now()-" + updatedCell.getA1Notation());
   ageCell.setNumberFormat("HH:MM:SS");
+}
+
+function updateHudCharts() {
+  var hud = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("HUD");
+  var data = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Data");
+  charts = hud.getCharts();
+  chart = charts[0];
+  Logger.log(chart.getId());
+  var lastRow = data.getLastRow();
+  var chartHistoryTimeHours = 12;
+  var rangeTextData = "K" + (lastRow-(chartHistoryTimeHours*(60/5))) + ":K" + (lastRow);
+  var rangeTextA = "A" + (lastRow-(chartHistoryTimeHours*(60/5))) + ":A" + (lastRow);
+  chart = chart.modify()
+      .setOption("title", "")
+      .clearRanges()
+      .addRange(data.getRange("A1"))
+      .addRange(data.getRange("I1"))
+      .addRange(data.getRange(rangeTextData))
+      .build();
+  hud.updateChart(chart);
+  Logger.log("done");
+}
+
+function onOpen() {
+  var doc = SpreadsheetApp.getActiveSpreadsheet();
+  
+  var menu = [
+    {name: 'Update', functionName: 'updateHud'},
+  ];
+  doc.addMenu("Custom Script", menu);
 }
