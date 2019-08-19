@@ -94,7 +94,20 @@ function doChangeHudRow(hudRowNumber, lastRow, description, dataColumn, hours, d
   cell.setBackground(color);
   cell.setFontSize(20);
 }
-  
+
+function doStatusHudRow(hudRowNumber, lastRow, description, dataColumn, data, hud) {
+  var count = data.getRange(dataColumn + lastRow).getValue();
+  hud.getRange("A" + hudRowNumber).setValue(description);
+  var countCell = hud.getRange("B" + hudRowNumber);
+  countCell.setValue(count);
+  if (count == 0) {
+    countCell.setBackground("#0000ff");
+  } else {
+    countCell.clearFormat();
+  }
+  countCell.setFontSize(20);
+}
+
 function updateHud() {
   var d = new Date();
   var hud = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("HUD");
@@ -123,17 +136,13 @@ function updateHud() {
   displayRow++;
   */
   
-  var importantUnreadCountNow =  data.getRange("K" + lastRow).getValue();
-  hud.getRange("A" + displayRow).setValue("important unread NOW");
-  hud.getRange("B" + displayRow++).setValue(importantUnreadCountNow);
+  doStatusHudRow(displayRow++, lastRow, "important unread NOW", "K", data, hud);
   doChangeHudRow(displayRow++, lastRow, "important unread", "K", 4, data, hud);
   doChangeHudRow(displayRow++, lastRow, "important unread", "K", 24, data, hud);
   doChangeHudRow(displayRow++, lastRow, "important unread", "K", 24*7, data, hud);
   displayRow++;
   
-  var starredCountNow =  data.getRange("L" + lastRow).getValue();
-  hud.getRange("A" + displayRow).setValue("starred NOW");
-  hud.getRange("B" + displayRow++).setValue(starredCountNow);
+  doStatusHudRow(displayRow++, lastRow, "starred NOW", "L", data, hud);
   doChangeHudRow(displayRow++, lastRow, "starred", "L", 1, data, hud);
   doChangeHudRow(displayRow++, lastRow, "starred", "L", 24*0.5, data, hud);
   doChangeHudRow(displayRow++, lastRow, "starred", "L", 24, data, hud);
