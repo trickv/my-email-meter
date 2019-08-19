@@ -72,7 +72,7 @@ function getSearchCount(searchString) {
   return count;
 }
 
-function doHudRow(hudRowNumber, lastRow, description, dataColumn, hours, data, hud) {
+function doChangeHudRow(hudRowNumber, lastRow, description, dataColumn, hours, data, hud) {
   var runInterval = 5; // HACK: this should just seek! In the mean time, assume data points are 5 minutes apart.
   var hoursAgoRow = lastRow - ((60/runInterval)*hours); // HACK: updateData logs every X mins at the moment but should detect properly
   var cell = hud.getRange("B" + hudRowNumber);
@@ -116,27 +116,28 @@ function updateHud() {
   var importantCountNow =  data.getRange("I" + lastRow).getValue();
   hud.getRange("A" + displayRow).setValue("important NOW");
   hud.getRange("B" + displayRow++).setValue(importantCountNow);
-  doHudRow(displayRow++, lastRow, "important", "I", 1, data, hud);
-  doHudRow(displayRow++, lastRow, "important", "I", 4, data, hud);
-  doHudRow(displayRow++, lastRow, "important", "I", 24, data, hud);
-  doHudRow(displayRow++, lastRow, "important", "I", 24*7, data, hud);
+  doChangeHudRow(displayRow++, lastRow, "important", "I", 1, data, hud);
+  doChangeHudRow(displayRow++, lastRow, "important", "I", 4, data, hud);
+  doChangeHudRow(displayRow++, lastRow, "important", "I", 24, data, hud);
+  doChangeHudRow(displayRow++, lastRow, "important", "I", 24*7, data, hud);
   displayRow++;
   */
   
   var importantUnreadCountNow =  data.getRange("K" + lastRow).getValue();
   hud.getRange("A" + displayRow).setValue("important unread NOW");
   hud.getRange("B" + displayRow++).setValue(importantUnreadCountNow);
-  doHudRow(displayRow++, lastRow, "important unread", "K", 4, data, hud);
-  doHudRow(displayRow++, lastRow, "important unread", "K", 24, data, hud);
-  doHudRow(displayRow++, lastRow, "important unread", "K", 24*7, data, hud);
+  doChangeHudRow(displayRow++, lastRow, "important unread", "K", 4, data, hud);
+  doChangeHudRow(displayRow++, lastRow, "important unread", "K", 24, data, hud);
+  doChangeHudRow(displayRow++, lastRow, "important unread", "K", 24*7, data, hud);
   displayRow++;
+  
   var starredCountNow =  data.getRange("L" + lastRow).getValue();
   hud.getRange("A" + displayRow).setValue("starred NOW");
   hud.getRange("B" + displayRow++).setValue(starredCountNow);
-  doHudRow(displayRow++, lastRow, "starred", "L", 1, data, hud);
-  doHudRow(displayRow++, lastRow, "starred", "L", 24*0.5, data, hud);
-  doHudRow(displayRow++, lastRow, "starred", "L", 24, data, hud);
-  doHudRow(displayRow++, lastRow, "starred", "L", 24*7, data, hud);
+  doChangeHudRow(displayRow++, lastRow, "starred", "L", 1, data, hud);
+  doChangeHudRow(displayRow++, lastRow, "starred", "L", 24*0.5, data, hud);
+  doChangeHudRow(displayRow++, lastRow, "starred", "L", 24, data, hud);
+  doChangeHudRow(displayRow++, lastRow, "starred", "L", 24*7, data, hud);
 
   displayRow += 3;
   
